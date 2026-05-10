@@ -105,11 +105,25 @@ export const ogrenciGuncelle = (
 
     const index = ogrenciler.findIndex((o) => o.id === id);
     // index -1 değerde ise o id'ye sahip öğrenci yok demek
-    
 
+    if (index == -1){
+        res.status(404).json({
+        success:false,
+        error:"şu id : "+id+" ye sahip ogrenci bulunamadı",
+    });
+    return;
+    }
+    
+    ogrenciler[index] = {
+        ...ogrenciler[index],
+        ...guncellenecekVeri,  // ad:"osman" en alttaki veri üstüne yazılır önceki veri silinir
+    };
+
+    // if (guncellenecekVeri && guncellenecekVeri.ad) {
+    //     ogrenciler[index].ad = guncellenecekVeri.ad
+    // }
     res.status(200).json({
         success:true,
-        data:ogrenciler,
-        count:ogrenciler.length,
+        data:ogrenciler[index],
     });
 };
